@@ -9,29 +9,26 @@ public abstract class Character {
     static boolean excludeSimilar;
     static boolean excludeAmbiguous;
 
-    public abstract String getCharacter();
+    abstract String getAvailableCharacters();
 
-    private String getFinalCharacter()
-    {
-        String character = getCharacter();
-        if (isExcludeAmbiguous())
-        {
+    String getCharacters() {
+        String character = getAvailableCharacters();
+        if (isExcludeAmbiguous()) {
             character = character.replaceAll("[{}\\[\\]()/\\\\'\"`~,;:.<>]", "");
         }
-        if (isExcludeSimilar())
-        {
+        if (isExcludeSimilar()) {
             character = character.replaceAll("[iIlL1oO0]", "");
         }
         return character;
     }
 
     public String generate(int length) {
-        String character = getFinalCharacter();
+        String characters = getCharacters();
         StringBuilder builder = new StringBuilder(length);
 
         for (int i = 0; i < length; i++) {
-            int index = RandomUtil.randomInt(0, character.length() - 1);
-            builder.append(character.charAt(index));
+            int index = RandomUtil.randomInt(0, characters.length() - 1);
+            builder.append(characters.charAt(index));
         }
 
         return builder.toString();
